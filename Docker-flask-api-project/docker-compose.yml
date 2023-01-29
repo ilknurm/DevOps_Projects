@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: ilknur123
+      MYSQL_DATABASE: bookstore_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: ilknur13
+    networks:
+      -clarusnet
+
+  myapp:
+    image: ilknurw/bookstoreapi:latest
+    container_name: myapp
+    restart: always
+    depends_on:
+      - database:
+    ports: 
+      - "80:80"
+    networks: 
+      - clarusnet
+
+networks:
+  clarusnet:
