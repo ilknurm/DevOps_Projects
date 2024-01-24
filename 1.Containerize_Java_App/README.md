@@ -28,14 +28,37 @@ Once your in your EC2, you want to glone the Github Project Repo and checkout to
 
 Alright so we're half way there.  
 
-Now you will need to install the docker-engine. I highly recommand reading up/watching a video on what the docker engine is, and how it functions. You can follow this tutorial on how to install docker-engine here: ![docker-engine](https://docs.docker.com/engine/install).
+Now you will need to install the docker-engine. I highly recommand reading up/watching a video on what the docker engine is, and how it functions. You can follow this tutorial on how to install docker-engine here: ![docker-engine-installation](https://docs.docker.com/engine/install).
 
 Confirm the installation with ```sudo systemctl status docker``` or ```docker run hello-world```. The second command will run the hello world image.  
 ![docker-confirm](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker-confirm.png)
 
 We're almost done, now the last part before we can begin is setting up ap Dockerhub account and creating the repositories. We're going to be building three custome images so we would need to create repositories for those.  
- ![docker-hub](https://docs.docker.com/docker-id/).
-  ![docker-hub](https://docs.docker.com/docker_hub.png)  
+ ![docker-hub-sign=up](https://docs.docker.com/docker-id/).
+![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker_hub.png)  
+
+Finally, we can start writing docker files.  
+
+The first Dockerfile we will be writing is for the app image and here we will be using Tomcat, and we be building an artifact.  
+To build and artifact we would need to run ```mvn install``` and for maven we would need ```openjdk```. In this image we will writing out two images, one to build the artifact and then second to copy the artifact to the image Tomcat.  
+
+![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png) 
+
+The first part of this Dockerfile will use openjdk to build a new image ```build_image```  
+It will run ```mvn install``` which will build an artifact, (you can try doing this manually as well to see how it works)
+this artifact will generated into a directory called target, which we are going to copy into the default Tomcat directory which is where Tomcat expects to find default web application files. In this case we are replacing with our own application artifact.  
+
+Now, let's build the database. For this section we will be using MySQL  
+
+
+
+
+
+
+
+
+
+
 
 
 
