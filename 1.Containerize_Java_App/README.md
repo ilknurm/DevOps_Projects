@@ -85,10 +85,69 @@ FROM nginx
 RUN rm -f /etc/nginx/conf.d/default.conf
 
 COPY nginvproapp.conf /etc/nginx/conf.d/vproapp.conf
-
 ```
 
 Now, before we commit these files to dockerhub we need to test them. We will be writing out a docker compose file next.
+
+```
+version: '3.8'
+
+services:
+  vprodb:
+    build:
+      context: ./Docker-files/db
+    image: ilknurw/vprofiledb
+    container_name: vprodb
+    ports:
+      - "3306:3306"
+    volumes:
+      - vprodbdata:/var/lib/mysql 
+    environment:
+      - MYSQL_ROOT_PASS=vprodbpass
+
+
+  vprocache01:       
+    image: memcached
+    ports:
+      - "11211:11211"
+
+  vpromq01:
+    image: rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  vproapp:
+    build:
+      context: ./Docker-files/app
+    image: ilknurw/vprofileapp
+    container_name: vproapp
+    ports:
+      - "8080:8080"
+    volumes:
+      - vproappdata:/usr/local/tomcat/webapps
+
+  vproweb:
+    build:
+      context: ./Docker-files/web
+    image: ilknurw/vprofileweb
+    container_name: vproweb
+    ports:
+      - "80:80"
+
+volumes:
+  vprodbdata: {}
+  vproappdata: {}
+```
+![docker-compose](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app-properties.png)
+
+All information related to port numbers and passwords can be found form the source code in the directory ```/src/main/resources/application.properties```  
+
+Image names should be the same as the repositories we created on Dockerhub
+
+Memcached and RabbitMQ do not to be customized, configurations related to these two can be changed eve after the image has been built. 
 
 
 
