@@ -1,6 +1,7 @@
 ![project_diagram](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/diagram.png)  
 
 Here you will find: [Project Source](https://www.udemy.com/course/devopsprojects/)  
+[Project Source Code](https://github.com/devopshydclub/vprofile-project)
 This project involves hands-on containerization of an existing multi-tier application.  
 
 Steps Taken to Containerize Existing App:  
@@ -65,9 +66,9 @@ CMD ["catalina.sh","run]
 
 ```  
 
-Now, let's build the database. For this section we will be using MySQL.   
+  
 ![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png)  
-
+Now, let's build the database. For this section we will be using MySQL.   
 Here we have a MySQL file that needs to be copied into the image. We need to set a password and a database name; for now, I gave them random values.  
 The ADD argument here will copy our SQL file into the directory ```docker-entrypoint.initdb/```. We can obtain this information from  [Docker Hub-mysql image](https://hub.docker.com/_/mysql) under ```Initializing a fresh instance```
 
@@ -81,11 +82,11 @@ ADD db_backup.sql docker-entrypoint-initdb/db_backup.sql
 
 ```  
 
-
-The application will be listening on port 80, binding to a container called 'vproapp' on port 8080   
-![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)
-
 The last Dockerfile we will be building is for Nginx. We will be using the image from Docker Hub, but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf``` [Docker Hub-Nginx](https://hub.docker.com/_/nginx). We will erase this default file and replace it with our own.
+
+
+The application will be listening on port 80, binding to a container called 'vproapp' on port 8080    
+![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)    
 
 
 ```
