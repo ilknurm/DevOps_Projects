@@ -1,7 +1,7 @@
 ![project_diagram](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/diagram.png)  
 
 Here you will find: [Project Source](https://www.udemy.com/course/devopsprojects/)  
-[Project Source Code](https://github.com/devopshydclub/vprofile-project)
+[Project Source Code](https://github.com/devopshydclub/vprofile-project)  
 This project involves hands-on containerization of an existing multi-tier application.  
 
 Steps Taken to Containerize Existing App:  
