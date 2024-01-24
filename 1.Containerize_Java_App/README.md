@@ -39,16 +39,57 @@ We're almost done, now the last part before we can begin is setting up ap Docker
 
 Finally, we can start writing docker files.  
 
-The first Dockerfile we will be writing is for the app image and here we will be using Tomcat, and we be building an artifact.  
-To build and artifact we would need to run ```mvn install``` and for maven we would need ```openjdk```. In this image we will writing out two images, one to build the artifact and then second to copy the artifact to the image Tomcat.  
+The first Dockerfile we will be writing is for the application image and here we will be using Tomcat to serve these files.In order to do this we need to build an artifact.  
+To build an artifact we would need to run ```mvn install``` which relies on``openjdk``.For image we will write out two images, one to build the artifact and then second to copy the artifact to the image Tomcat  
+```
+FROM openjdk:11 as build_image
+RUN yum update && install maven -y
+RUN git clone https://github.com/devopshydclub/vprofile-project
+RUN cd vprofile-project && git checkout docker && mvn install
 
-![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png) 
+FROM tomcat:9-jre11
+RUN rm -rf /usr/local/tomcat/webapps*
+COPY --from=build_image vprofile-project/target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
+EXPOSE 8080
+CMD ["catalina.sh","run]
 
+```  
 The first part of this Dockerfile will use openjdk to build a new image ```build_image```  
-It will run ```mvn install``` which will build an artifact, (you can try doing this manually as well to see how it works)
+It will run ```mvn install``` which will build an artifact, (you can try doing this manually to see how it works)
 this artifact will generated into a directory called target, which we are going to copy into the default Tomcat directory which is where Tomcat expects to find default web application files. In this case we are replacing with our own application artifact.  
 
-Now, let's build the database. For this section we will be using MySQL  
+Now, let's build the database. For this section we will be using MySQL. 
+![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png)
+Here we have a mysql file that needs to be copied into the image
+
+```FROM mysql:8.0.33
+
+ENV MYSQL_ROOT_PASSWORD="12345"
+ENV MYSQL_DATABSE = "accounts"
+
+ADD db_backup.sql docker-entrypoint-initdb/db_backup.sql ```
+
+We need to set a password and databe name, for now I gave it a random value.  
+The ADD argument here will copy out sql file into the directory ```docker-entrypoint.initdb/```, this directory information 
+Lecture thumbnail
+can be found on the dockerhub mysql image's page.
+
+The last Dockerfile we will be building is for nginx. We will be using the image from dockerhub but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf```(this information can be located on dockerhub for the nginx image). We will erase this default file and replace it with ours.
+![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)
+
+The application will be listening on port 80 bindind to a container called vproapp on port 8080.
+
+```
+FROM nginx
+
+RUN rm -f /etc/nginx/conf.d/default.conf
+
+COPY nginvproapp.conf /etc/nginx/conf.d/vproapp.conf
+
+```
+
+Now, before we commit these files to dockerhub we need to test them. We will be writing out a docker compose file next.
+
 
 
 
