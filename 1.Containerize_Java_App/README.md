@@ -62,22 +62,26 @@ Now, let's build the database. For this section we will be using MySQL.
 ![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png)
 Here we have a mysql file that needs to be copied into the image
 
-```FROM mysql:8.0.33
+```
+FROM mysql:8.0.33
 
 ENV MYSQL_ROOT_PASSWORD="12345"
 ENV MYSQL_DATABSE = "accounts"
 
-ADD db_backup.sql docker-entrypoint-initdb/db_backup.sql ```
+ADD db_backup.sql docker-entrypoint-initdb/db_backup.sql  
+
+```  
 
 We need to set a password and databe name, for now I gave it a random value.  
 The ADD argument here will copy out sql file into the directory ```docker-entrypoint.initdb/```, this directory information 
-Lecture thumbnail
-can be found on the dockerhub mysql image's page.
+can be found on the dockerhub mysql image's page.  
 
-The last Dockerfile we will be building is for nginx. We will be using the image from dockerhub but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf```(this information can be located on dockerhub for the nginx image). We will erase this default file and replace it with ours.
+The last Dockerfile we will be building is for nginx. We will be using the image from dockerhub but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf```(this information can be located on dockerhub for the nginx image). We will erase this default file and replace it with ours.  
 ![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)
 
-The application will be listening on port 80 bindind to a container called vproapp on port 8080.
+The application will be listening on port 80 bindind to a container called vproapp on port 8080.   
+
+
 
 ```
 FROM nginx
@@ -87,7 +91,9 @@ RUN rm -f /etc/nginx/conf.d/default.conf
 COPY nginvproapp.conf /etc/nginx/conf.d/vproapp.conf
 ```
 
-Now, before we commit these files to dockerhub we need to test them. We will be writing out a docker compose file next.
+
+Now, before we commit these files to dockerhub we need to test them. We will be writing out a docker compose file next.  
+
 
 ```
 version: '3.8'
@@ -140,7 +146,8 @@ services:
 volumes:
   vprodbdata: {}
   vproappdata: {}
-```
+```  
+
 ![docker-compose](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app-properties.png)
 
 All information related to port numbers and passwords can be found form the source code in the directory ```/src/main/resources/application.properties```  
