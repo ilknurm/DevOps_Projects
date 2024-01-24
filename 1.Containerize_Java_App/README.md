@@ -197,6 +197,10 @@ Time to push these to Dockerhub.
 
 Nice! Now we have an image that is public to everyone and can be used whenever they like!  
 
+```docker compose down ``` will bring everything down and ```docker system prune``` will destroy all containers and images.
+
+Don't forget to power off your EC2.
+
 THE END  
 
 
