@@ -88,6 +88,7 @@ The last Dockerfile we will be building is for Nginx. We will be using the image
 The application will be listening on port 80, binding to a container called 'vproapp' on port 8080    
 ![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)    
 
+We delete the default Nginx configuration and copy our configuration to it.
 
 ```
 FROM nginx  
