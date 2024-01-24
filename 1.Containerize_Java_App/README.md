@@ -85,7 +85,7 @@ ADD db_backup.sql docker-entrypoint-initdb/db_backup.sql
 The application will be listening on port 80, binding to a container called 'vproapp' on port 8080   
 ![nginx_our_file](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/nginx_conf.png)
 
-The last Dockerfile we will be building is for Nginx. We will be using the image from Docker Hub, but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf``` (this information can be found on Docker Hub for the Nginx image). We will erase this default file and replace it with our own.
+The last Dockerfile we will be building is for Nginx. We will be using the image from Docker Hub, but we need to change the configuration for this. The default configuration lives in ```/etc/nginx/conf.d/default.conf``` {Docker Hub-Nginx](https://hub.docker.com/_/nginx). We will erase this default file and replace it with our own.
 
 
 ```
