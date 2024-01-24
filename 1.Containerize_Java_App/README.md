@@ -28,13 +28,13 @@ Once your in your EC2, you want to glone the Github Project Repo and checkout to
 
 Alright so we're half way there.  
 
-Now you will need to install the docker-engine. I highly recommand reading up/watching a video on what the docker engine is, and how it functions. You can follow this tutorial on how to install docker-engine here: ![docker-engine-installation](https://docs.docker.com/engine/install).
+Now we will need to install the docker-engine. I highly recommand reading up/watching a video on what the docker engine is, and how it functions. You can follow this tutorial on how to install docker-engine here: [docker-engine-installation](https://docs.docker.com/engine/install).
 
 Confirm the installation with ```sudo systemctl status docker``` or ```docker run hello-world```. The second command will run the hello world image.  
 ![docker-confirm](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker-confirm.png)
 
 We're almost done, now the last part before we can begin is setting up ap Dockerhub account and creating the repositories. We're going to be building three custome images so we would need to create repositories for those.  
- ![docker-hub-sign=up](https://docs.docker.com/docker-id/).
+ [docker-hub-sign=up](https://docs.docker.com/docker-id/).
 ![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker_hub.png)  
 
 Finally, we can start writing docker files.  
