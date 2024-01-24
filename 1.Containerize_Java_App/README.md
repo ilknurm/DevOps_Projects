@@ -69,7 +69,7 @@ Now, let's build the database. For this section we will be using MySQL.
 ![docker-hub](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app_docker.png)  
 
 Here we have a MySQL file that needs to be copied into the image. We need to set a password and a database name; for now, I gave them random values.  
-The ADD argument here will copy our SQL file into the directory ```docker-entrypoint.initdb/```. This directory information can be found on the Docker Hub MySQL image's page.  
+The ADD argument here will copy our SQL file into the directory ```docker-entrypoint.initdb/```. We can obtain this information from  [Docker Hub-mysql image](https://hub.docker.com/_/mysql) under ```Initializing a fresh instance```
 
 ```
 FROM mysql:8.0.33  
