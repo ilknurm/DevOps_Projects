@@ -167,7 +167,7 @@ Finally, let's navigate to the directory where all our configuration files live 
 ```docker-compose up -d``` will run our containers. We could run this without building the images beforehand, and it would still work.  
 
 ```docker ps ``` will give you the an output of all running containers.  
-![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/containers.png)  
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/contianers.png)  
 
 Time to validate whether or not the application is working. This setup is built on an EC2, so we will need the public IP of the EC2 and the port that the app is being exposed on—in this case, port 80 (Nginx)  
 
