@@ -43,7 +43,7 @@ The first Dockerfile we will be writing is for the application image and here we
 To build an artifact we would need to run ```mvn install``` which relies on``openjdk``.For image we will write out two images, one to build the artifact and then second to copy the artifact to the image Tomcat  
 ```
 FROM openjdk:11 as build_image
-RUN yum update && install maven -y
+RUN apt update && apt install maven -y (we use apt because openjdk is based on debian)
 RUN git clone https://github.com/devopshydclub/vprofile-project
 RUN cd vprofile-project && git checkout docker && mvn install
 
@@ -151,10 +151,53 @@ volumes:
 ![docker-compose](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/app-properties.png)
 
 All information related to port numbers and passwords can be found form the source code in the directory ```/src/main/resources/application.properties```  
-
 Image names should be the same as the repositories we created on Dockerhub
 
-Memcached and RabbitMQ do not to be customized, configurations related to these two can be changed eve after the image has been built. 
+Memcached and RabbitMQ do not to be customized, configurations related to them can be stated in the configuration files.
+
+These volumes are docker managed and can be found in ```var/lib/docker/volume``` in most cases, this will create persistent data. This important in case your container crashes or needs to be restarted. This will ensure that there is no data loss.
+
+Finally, let's navigate to the directory where all our confiuration files live and run ```docker compose build```.  
+
+This will build all images 
+
+![build_images](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/build_images.png)
+
+```docker compose up -d``` will not run our containers, we could run this without build the images before hand and it would have still worked
+
+```docker ps ``` will give you the an output of all running containers.
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/containers.png)
+
+Time to validate wheater or not the application is working. This set up is build on an EC2, so we will need the public IP of the EC2 and the port that app is being exposed on in this case port 80(nginx). 
+
+```http://<public ip>:80```
+
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/public.ip.png)
+
+At this point this will most likely not work because we havent configured our secuirty group rules.
+
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/SG.png)
+
+After editing the Secuirty Group rules you should have an application that is up and running.
+
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/website.png)
+
+TA DA!!!
+
+Time to push these to Dockerhub
+
+```docker push <account_name>/<repository_name>``` , you might need to run ```docker login``` before being able to push the image to your repository.
+
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker_push.png)
+
+![containers](https://github.com/ilknurm/DevOps_Projects/blob/main/1.Containerize_Java_App/images/docker_hub_images.png)
+
+Nice,now we have an image that is public to everyone and can be used whenever they like!
+
+THE END!
+
+
+
 
 
 
