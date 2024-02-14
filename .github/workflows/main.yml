@@ -1,24 +1,29 @@
+name: Deploy
+
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
-  
+    branches: main
+
 jobs:
-  run_pull:
-    name: run pull
+  Deploy:
+    name: Deploy to EC2
     runs-on: ubuntu-latest
     
     steps:
-    - name: install ssh keys
-      # check this thread to understand why its needed:
-      # https://stackoverflow.com/a/70447517
-      - name: Debug ssh-keyscan
-      run: |
-    echo "Running ssh-keyscan"
-    ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-    cat ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
-    - name: cleanup
-      run: rm -rf ~/.ssh
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.SSH_HOST}}
+            USER_NAME: ${{secrets.USER_NAME}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              cd /home/Docker_Projects &&
+              git checkout dev &&
+              git fetch --all &&
+              git reset --hard origin/dev &&
+              git pull origin dev
