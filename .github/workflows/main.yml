@@ -23,7 +23,7 @@ jobs:
 
               # Now we have got the access of EC2 and we will start the deploy .
               cd /home/Docker_Projects &&
-              git checkout dev &&
+              git checkout main &&
               git fetch --all &&
-              git reset --hard origin/dev &&
-              git pull origin dev
+              git reset --hard origin/main &&
+              git pull origin main
